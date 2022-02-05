@@ -2,16 +2,20 @@
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import data.NewsRepository
 import ui.HomeScreen
 
 fun main() = application {
+
+    val newsRepository = NewsRepository()
+
     Window(
         onCloseRequest = ::exitApplication,
         title = "Compose Desktop Newsreader",
     ) {
 
         MaterialTheme {
-            HomeScreen()
+            HomeScreen(newsRepository)
         }
 
     }
