@@ -75,9 +75,9 @@ fun Headlines(state: HomeUiState) {
 
                 items(state.newsList) {
                     NewsCard(
-                        title = it,
-                        subtitle = "Alice reached Wonderland after going through a rabbit hole. She explains the story to us. Click to read more.",
-                        url = "https://example.com/news/alice-in-wonderland",
+                        title = it.title ?: "-",
+                        subtitle = it.description ?: "-",
+                        url = it.url ?: "-",
                     )
                 }
 
