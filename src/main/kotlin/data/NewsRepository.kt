@@ -3,8 +3,12 @@ package data
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import data.network.NewsApi
 import data.state.HomeUiState
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class NewsRepository {
 
@@ -22,14 +26,20 @@ class NewsRepository {
         job?.cancel()
         job = CoroutineScope(Dispatchers.Default).launch {
 
-            // TODO make actual API calls
-            delay(1000)
+            val newsHeadlinesResponse = NewsApi.getTopHeadlines()
 
-            homeUiState = homeUiState.copy(
-                isLoading = false,
-                error = null,
-                newsList = (1..150).map { "News Title $it" }.toList()
-            )
+            homeUiState = if (newsHeadlinesResponse.status == "ok") {
+                homeUiState.copy(
+                    isLoading = false,
+                    error = null,
+                    newsList = newsHeadlinesResponse.articles
+                )
+            } else {
+                homeUiState.copy(
+                    isLoading = false,
+                    error = newsHeadlinesResponse.message
+                )
+            }
 
         }
 
