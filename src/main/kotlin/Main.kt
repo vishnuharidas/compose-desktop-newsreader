@@ -2,12 +2,16 @@
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.iamvishnu.compose.Compose_Desktop_Newsreader.BuildConfig
 import data.NewsRepository
+import data.network.NewsApi
 import ui.HomeScreen
 
 fun main() = application {
 
     val newsRepository = NewsRepository()
+
+    NewsApi.setApiKey( BuildConfig.NEWSAPI_ORG_API_KEY )
 
     Window(
         onCloseRequest = ::exitApplication,
