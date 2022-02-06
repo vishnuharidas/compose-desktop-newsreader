@@ -23,6 +23,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:1.6.7")
     implementation("io.ktor:ktor-client-cio:1.6.7")
     implementation("io.ktor:ktor-client-serialization:1.6.7")
+    implementation("com.alialbaali.kamel:kamel-image:0.3.0")
 }
 
 tasks.withType<KotlinCompile>() {
