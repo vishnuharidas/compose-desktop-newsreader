@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import data.NewsRepository
+import data.state.ApiStatus
 import ui.homescreen.composable.Headlines
 
 @Composable
@@ -33,7 +34,7 @@ fun HomeScreen(newsRepository: NewsRepository) {
         ) {
 
             //Headlines(newsRepository.homeUiState)
-            if (newsRepository.homeUiState.isLoading) {
+            if (newsRepository.homeUiState.apiStatus == ApiStatus.Loading) {
 
                 Box(
                     modifier = Modifier
@@ -45,7 +46,9 @@ fun HomeScreen(newsRepository: NewsRepository) {
                 }
 
             } else {
-                Headlines(newsRepository.homeUiState)
+                Headlines(newsRepository.homeUiState){
+                    newsRepository.fetchMoreNews()
+                }
             }
 
         }
