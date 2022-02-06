@@ -4,7 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import data.network.NewsApi
+import data.state.ApiStatus
 import data.state.HomeUiState
+import data.state.newOrAdd
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,30 +21,49 @@ class NewsRepository {
 
     fun fetchNews() {
 
-        if (homeUiState.isLoading) return // prevent double-loads
+        if (homeUiState.apiStatus == ApiStatus.Loading
+            || homeUiState.apiStatus == ApiStatus.LoadingMore
+        ) return // prevent double-loads
 
-        homeUiState = HomeUiState(isLoading = true)
+        homeUiState = homeUiState.copy(
+            apiStatus = if (homeUiState.topNews == null) ApiStatus.Loading else ApiStatus.LoadingMore
+        )
+
+        println("State: ${homeUiState.apiStatus}")
 
         job?.cancel()
         job = CoroutineScope(Dispatchers.Default).launch {
 
-            val newsHeadlinesResponse = NewsApi.getTopHeadlines()
+            val newsHeadlinesResponse = NewsApi.getTopHeadlines(
+                pageSize = 10,
+                page = homeUiState.topNews?.currentPage?.plus(1) ?: 0
+            )
 
             homeUiState = if (newsHeadlinesResponse.status == "ok") {
+
                 homeUiState.copy(
-                    isLoading = false,
+                    apiStatus = ApiStatus.Success,
                     error = null,
-                    newsList = newsHeadlinesResponse.articles
+                    topNews = homeUiState.topNews.newOrAdd(
+                        totalCount = newsHeadlinesResponse.totalResults ?: 0,
+                        list = newsHeadlinesResponse.articles
+                    )
                 )
+
             } else {
                 homeUiState.copy(
-                    isLoading = false,
-                    error = newsHeadlinesResponse.message
+                    apiStatus = if (homeUiState.apiStatus == ApiStatus.LoadingMore) {
+                        ApiStatus.LoadMoreFailure(newsHeadlinesResponse.message)
+                    } else {
+                        ApiStatus.Failure(newsHeadlinesResponse.message)
+                    }
                 )
             }
 
         }
 
     }
+
+    fun fetchMoreNews() = fetchNews()
 
 }
