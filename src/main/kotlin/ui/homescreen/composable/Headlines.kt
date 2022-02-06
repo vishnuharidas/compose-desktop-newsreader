@@ -74,11 +74,7 @@ fun Headlines(state: HomeUiState) {
             ) {
 
                 items(state.newsList) {
-                    NewsCard(
-                        title = it.title ?: "-",
-                        subtitle = it.description ?: "-",
-                        url = it.url ?: "-",
-                    )
+                    NewsCard(it)
                 }
 
             }
