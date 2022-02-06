@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.5.31"
     id("org.jetbrains.compose") version "1.0.0"
     kotlin("plugin.serialization") version "1.6.10"
+    id("com.github.gmazzo.buildconfig") version "3.0.3" // for BuildConfig: https://github.com/gmazzo/gradle-buildconfig-plugin
 }
 
 group = "com.iamvishnu.compose"
@@ -37,4 +38,8 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+buildConfig {
+    buildConfigField("String", "NEWSAPI_ORG_API_KEY", "\"${System.getenv("NEWSAPI_ORG_API_KEY")}\"")
 }
