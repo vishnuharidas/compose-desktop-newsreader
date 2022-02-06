@@ -11,9 +11,13 @@ object NewsApi {
 
     private lateinit var apiKey: String
 
-    private val httpClient: HttpClient = HttpClient(CIO){
-        install(JsonFeature){
-            serializer = KotlinxSerializer()
+    private val httpClient: HttpClient = HttpClient(CIO) {
+        expectSuccess = false
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(json = kotlinx.serialization.json.Json {
+                isLenient = true
+                ignoreUnknownKeys = true
+            })
         }
     }
 
@@ -21,8 +25,13 @@ object NewsApi {
         apiKey = key
     }
 
-    suspend fun getTopHeadlines(): GetNewsHeadlinesResponse {
-        return httpClient.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey")
+    suspend fun getTopHeadlines(
+        pageSize: Int = 10,
+        page: Int = 0
+    ): GetNewsHeadlinesResponse {
+        return httpClient.get(
+            "https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey&pageSize=$pageSize&page=$page"
+        )
     }
 
 }
