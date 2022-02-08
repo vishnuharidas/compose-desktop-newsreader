@@ -21,17 +21,29 @@ object NewsApi {
         }
     }
 
-    fun setApiKey(key: String){
+    fun setApiKey(key: String) {
         apiKey = key
     }
 
     suspend fun getTopHeadlines(
         pageSize: Int = 10,
         page: Int = 0
-    ): GetNewsHeadlinesResponse {
-        return httpClient.get(
+    ): Result<GetNewsHeadlinesResponse> = makeApiCall {
+        httpClient.get(
             "https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey&pageSize=$pageSize&page=$page"
         )
+    }
+
+    private inline fun <reified T> makeApiCall(
+        block: () -> T
+    ): Result<T> {
+
+        return try {
+            Result.success(block())
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
     }
 
 }
