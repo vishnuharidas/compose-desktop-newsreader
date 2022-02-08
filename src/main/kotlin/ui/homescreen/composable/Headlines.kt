@@ -43,7 +43,10 @@ fun Headlines(
             // Check failure first
             is ApiStatus.Failure -> {
 
-                HeadlinesFailure(state.apiStatus.message)
+                HeadlinesFailure(
+                    state.apiStatus.message,
+                    onRetry
+                )
 
             }
 
@@ -80,7 +83,8 @@ internal fun HeadlinesLoading() {
 
 @Composable
 internal fun HeadlinesFailure(
-    message: String?
+    message: String?,
+    onRetry: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -100,9 +104,7 @@ internal fun HeadlinesFailure(
         )
 
         Button(
-            onClick = {
-                //TODO make an actual call
-            },
+            onClick = onRetry,
         ) {
             Text("Retry")
         }
@@ -236,7 +238,7 @@ internal fun CardsList(
             }
 
         }
-    } else if(state.apiStatus == ApiStatus.Success) {
+    } else if (state.apiStatus == ApiStatus.Success) {
         HeadlinesEmpty(onRetry)
     }
 }

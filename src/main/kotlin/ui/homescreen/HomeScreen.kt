@@ -1,4 +1,4 @@
-package ui
+package ui.homescreen
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
@@ -32,7 +32,9 @@ fun HomeScreen(newsRepository: NewsRepository) {
             Headlines(
                 newsRepository.homeUiState,
                 onLoadMore = { newsRepository.fetchMoreNews() },
-                onRetry = { /* TODO */ }
+                onRetry = {
+                    newsRepository.fetchAgain()
+                }
             )
 
         }

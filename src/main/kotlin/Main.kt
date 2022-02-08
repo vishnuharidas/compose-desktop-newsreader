@@ -5,7 +5,7 @@ import androidx.compose.ui.window.application
 import com.iamvishnu.compose.Compose_Desktop_Newsreader.BuildConfig
 import data.NewsRepository
 import data.network.NewsApi
-import ui.HomeScreen
+import ui.homescreen.HomeScreen
 
 fun main() = application {
 
