@@ -34,30 +34,43 @@ class NewsRepository {
         job?.cancel()
         job = CoroutineScope(Dispatchers.Default).launch {
 
-            val newsHeadlinesResponse = NewsApi.getTopHeadlines(
+            val result = NewsApi.getTopHeadlines(
                 pageSize = 10,
                 page = homeUiState.topNews?.currentPage?.plus(1) ?: 0
             )
 
-            homeUiState = if (newsHeadlinesResponse.status == "ok") {
+            result.onSuccess { newsHeadlinesResponse ->
 
-                homeUiState.copy(
-                    apiStatus = ApiStatus.Success,
-                    error = null,
-                    topNews = homeUiState.topNews.newOrAdd(
-                        totalCount = newsHeadlinesResponse.totalResults ?: 0,
-                        list = newsHeadlinesResponse.articles
+                homeUiState = if (newsHeadlinesResponse.status == "ok") {
+
+                    homeUiState.copy(
+                        apiStatus = ApiStatus.Success,
+                        error = null,
+                        topNews = homeUiState.topNews.newOrAdd(
+                            totalCount = newsHeadlinesResponse.totalResults ?: 0,
+                            list = newsHeadlinesResponse.articles
+                        )
                     )
-                )
 
-            } else {
-                homeUiState.copy(
+                } else {
+                    homeUiState.copy(
+                        apiStatus = if (homeUiState.apiStatus == ApiStatus.LoadingMore) {
+                            ApiStatus.LoadMoreFailure(newsHeadlinesResponse.message)
+                        } else {
+                            ApiStatus.Failure(newsHeadlinesResponse.message)
+                        }
+                    )
+                }
+            }.onFailure {
+
+                homeUiState = homeUiState.copy(
                     apiStatus = if (homeUiState.apiStatus == ApiStatus.LoadingMore) {
-                        ApiStatus.LoadMoreFailure(newsHeadlinesResponse.message)
+                        ApiStatus.LoadMoreFailure(it.toString())
                     } else {
-                        ApiStatus.Failure(newsHeadlinesResponse.message)
+                        ApiStatus.Failure(it.toString())
                     }
                 )
+
             }
 
         }
@@ -65,5 +78,13 @@ class NewsRepository {
     }
 
     fun fetchMoreNews() = fetchNews()
+
+    fun fetchAgain() {
+
+        homeUiState = HomeUiState()
+
+        fetchNews()
+
+    }
 
 }
