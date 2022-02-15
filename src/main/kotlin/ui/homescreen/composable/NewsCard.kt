@@ -2,6 +2,7 @@ package ui.homescreen.composable
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -24,11 +25,15 @@ import io.kamel.image.lazyPainterResource
 @Preview
 @Composable
 fun NewsCard(
-    article: Article
+    article: Article,
+    onClick: (Article) -> Unit
 ) {
     Card(
         modifier = Modifier
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable {
+                onClick(article)
+            },
         elevation = 10.dp,
         shape = RoundedCornerShape(4.dp)
     ) {

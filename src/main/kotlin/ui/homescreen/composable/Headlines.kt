@@ -21,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.model.Article
 import data.state.ApiStatus
 import data.state.HomeUiState
 import data.state.hasMore
@@ -30,7 +31,8 @@ import kotlinx.coroutines.runBlocking
 fun Headlines(
     state: HomeUiState,
     onLoadMore: () -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    onClick: (Article) -> Unit,
 ) {
 
     Column(
@@ -61,7 +63,8 @@ fun Headlines(
                 HeadlinesListing(
                     state,
                     onLoadMore,
-                    onRetry
+                    onRetry,
+                    onClick,
                 )
             }
         }
@@ -144,7 +147,8 @@ internal fun HeadlinesEmpty(
 internal fun HeadlinesListing(
     state: HomeUiState,
     onLoadMore: () -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    onClick: (Article) -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -154,7 +158,8 @@ internal fun HeadlinesListing(
         CardsList(
             state,
             onLoadMore,
-            onRetry
+            onRetry,
+            onClick,
         )
 
         // Load more indicator
@@ -207,7 +212,8 @@ internal fun HeadlinesListing(
 internal fun CardsList(
     state: HomeUiState,
     onLoadMore: () -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    onClick: (Article) -> Unit,
 ) {
     // Using a state to enable drag-to-scroll (like mobile devices) on desktop applications.
     // Ref: https://github.com/JetBrains/compose-jb/issues/1555#issuecomment-987958210
@@ -226,7 +232,10 @@ internal fun CardsList(
 
             itemsIndexed(state.topNews.list) { index, item ->
 
-                NewsCard(item)
+                NewsCard(
+                    item,
+                    onClick,
+                )
 
                 // Load more if there are more items to load.
                 if (index == state.topNews.list.size - 1 // Reached the last item
