@@ -93,16 +93,19 @@ fun NewsCard(
 
             Text(article.description ?: "-")
 
-            Text(
-                article.url ?: "-",
-                style = TextStyle(
-                    color = Color.Blue,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light
-                ),
-                modifier = Modifier
-                    .padding(top = 16.dp)
-            )
+            if(article.source?.name != null){
+                Text(
+                    article.source.name,
+                    style = TextStyle(
+                        color = Color.Gray,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light
+                    ),
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                )
+            }
+
         }
 
     }
