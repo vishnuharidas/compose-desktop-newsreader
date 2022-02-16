@@ -56,14 +56,14 @@ fun NewsCard(
                         contentScale = ContentScale.Crop,
                         contentDescription = null,
                         modifier = Modifier
-                            .weight(1f)
+                            .width(120.dp)
                             .height(120.dp)
                             .clip(RoundedCornerShape(4.dp)),
                         onLoading = {
 
                             Box(
                                 modifier = Modifier
-                                    .weight(1f)
+                                    .width(120.dp)
                                     .height(120.dp)
                                     .clip(RoundedCornerShape(4.dp))
                                     .background(Color.LightGray),
@@ -80,36 +80,36 @@ fun NewsCard(
 
                 }
 
-                Text(
-                    article.title ?: "-",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
+                Column(
                     modifier = Modifier
-                        .weight(2f)
                         .padding(start = if (article.urlToImage.isNullOrEmpty()) 0.dp else 16.dp)
-                )
+                ) {
+
+                    Text(
+                        article.title ?: "-",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+
+                    if (article.source?.name != null) {
+                        Text(
+                            article.source.name,
+                            style = TextStyle(
+                                color = Color.Gray,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Light
+                            ),
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                        )
+                    }
+                }
 
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(article.description ?: "-")
-
-            if(article.source?.name != null){
-                Text(
-                    article.source.name,
-                    style = TextStyle(
-                        color = Color.Gray,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Light
-                    ),
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                )
-            }
 
         }
 
