@@ -15,12 +15,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.model.Article
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
+import resources.AppFonts
 
 @Preview
 @Composable
@@ -90,7 +90,7 @@ fun NewsCard(
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
+                            fontFamily = AppFonts.RobotoSlabRegular
                         )
                     )
 
@@ -100,7 +100,7 @@ fun NewsCard(
                             style = TextStyle(
                                 color = Color.Gray,
                                 fontSize = 14.sp,
-                                fontWeight = FontWeight.Light
+                                fontFamily = AppFonts.RobotoSlabLight
                             ),
                             modifier = Modifier
                                 .padding(top = 8.dp)
