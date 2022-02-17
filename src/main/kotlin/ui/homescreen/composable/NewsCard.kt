@@ -18,11 +18,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.model.Article
+import data.model.Source
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 import resources.AppFonts
 
-@Preview
 @Composable
 fun NewsCard(
     article: Article,
@@ -114,4 +114,23 @@ fun NewsCard(
         }
 
     }
+}
+
+@Preview
+@Composable
+fun CardCard() {
+    NewsCard(
+        article = Article(
+            source = Source(
+                name = "Reuters"
+            ),
+            title = "Foreign automakers see their chance in Japan with electric vehicles - Reuters",
+            description = "In September, Narumi Abe did something still rare in Japan: she bought a foreign car, picking a Peugeot e-208 over a Honda e because, she said, the Peugeot can travel longer distances between charges.",
+            content = "TOKYO, Feb 17 (Reuters) - In September, Narumi Abe did something still rare in Japan: she bought a foreign car, picking a Peugeot e-208 over a Honda e because, she said, the Peugeot can travel longer… [+2958 chars]",
+            publishedAt = "2022-02-17T07:55:00Z",
+            urlToImage = "https://www.reuters.com/resizer/KdSbgjDrW08srt-Qr53rFKkgMzA=/1200x628/smart/filters:quality(80)/cloudfront-us-east-2.images.arcpublishing.com/reuters/7R7BNNYFBVIUTBJJOVJFSRKZEE.jpg",
+            url = "https://www.reuters.com/business/autos-transportation/foreign-automakers-see-their-chance-japan-with-electric-vehicles-2022-02-17/"
+        ),
+        onClick = {}
+    )
 }
