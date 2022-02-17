@@ -20,4 +20,11 @@ object AppFonts {
         )
     )
 
+    val RobotoSlabBold = FontFamily(
+        Font(
+            "fonts/RobotoSlab-Bold.ttf",
+            weight = FontWeight.Light
+        )
+    )
+
 }
