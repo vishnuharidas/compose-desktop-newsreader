@@ -5,7 +5,7 @@ The app fetches the latest news from newsapi.org and shows a list of articles.
 
 **Status: in development**
 
-_(screenshot coming soon)_
+![Screenshot](images/screenshot.png)
 
 ## NewsApi.org account and API key
 The application uses free APIs from NewsApi.org. These APIs require an API key. 
