@@ -30,8 +30,22 @@ object NewsApi {
         page: Int = 0
     ): Result<GetNewsHeadlinesResponse> = makeApiCall {
         httpClient.get(
-            "https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey&pageSize=$pageSize&page=$page"
-        )
+            "https://newsapi.org/v2/top-headlines?country=us&pageSize=$pageSize&page=$page",
+        ) {
+            header("X-Api-Key", apiKey)
+        }
+    }
+
+    suspend fun getTopHeadlinesOfCategory(
+        pageSize: Int = 10,
+        page: Int = 0,
+        category: String = "general"
+    ): Result<GetNewsHeadlinesResponse> = makeApiCall {
+        httpClient.get(
+            "https://newsapi.org/v2/top-headlines?country=us&category=$category&pageSize=$pageSize&page=$page"
+        ) {
+            header("X-Api-Key", apiKey)
+        }
     }
 
     private inline fun <reified T> makeApiCall(
