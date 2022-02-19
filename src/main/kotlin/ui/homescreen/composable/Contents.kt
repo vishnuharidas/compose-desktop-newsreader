@@ -2,16 +2,15 @@ package ui.homescreen.composable
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,14 +24,37 @@ import data.model.Source
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 import resources.AppFonts
+import util.openInBrowser
+import java.net.URI
 
 
 internal val COVER_HEIGHT = 500.dp
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Contents(
     article: Article
 ) {
+
+    var showErrorDialog by remember { mutableStateOf(false) }
+
+    if (showErrorDialog) {
+        AlertDialog(
+            onDismissRequest = { },
+            title = {
+                Text("Unable to open the URL")
+            },
+            modifier = Modifier.requiredWidth(400.dp),
+            confirmButton = {
+                Button(
+                    onClick = { showErrorDialog = false }
+                ) {
+                    Text("OK")
+                }
+            }
+        )
+
+    }
 
     Column(
         modifier = Modifier
@@ -116,6 +138,27 @@ fun Contents(
                 fontSize = 18.sp,
                 fontFamily = AppFonts.RobotoSlabRegular
             )
+        )
+
+        Text(
+            "Read more on ${article.source?.name ?: "the website"}↗",
+            style = TextStyle(
+                fontSize = 18.sp,
+                fontFamily = AppFonts.RobotoSlabRegular
+            ),
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(Color.LightGray)
+                .clickable {
+
+                    try {
+                        openInBrowser(URI.create(article.url!!))
+                    } catch (e: Exception) {
+                        showErrorDialog = true
+                    }
+                }
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         )
     }
 
