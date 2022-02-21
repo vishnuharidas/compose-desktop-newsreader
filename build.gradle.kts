@@ -24,6 +24,7 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:1.6.7")
     implementation("io.ktor:ktor-client-serialization:1.6.7")
     implementation("com.alialbaali.kamel:kamel-image:0.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
 }
 
 tasks.withType<KotlinCompile>() {
