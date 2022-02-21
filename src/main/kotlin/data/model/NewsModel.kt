@@ -1,6 +1,11 @@
 package data.model
 
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
+import java.time.format.DateTimeFormatter
 
 // Quickly generated using the cool QuickType.io: https://app.quicktype.io/
 @Serializable
@@ -21,7 +26,23 @@ data class Article(
     val urlToImage: String? = null,
     val publishedAt: String? = null,
     val content: String? = null
-)
+) {
+
+    companion object {
+        val tz = TimeZone.currentSystemDefault()
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy MMM dd, hh:mm a")
+    }
+
+    val publishedAtStr: String
+        get() {
+            if (publishedAt.isNullOrEmpty()) return "Published recently"
+
+            return formatter.format(
+                Instant.parse(publishedAt).toLocalDateTime(tz).toJavaLocalDateTime()
+            )
+
+        }
+}
 
 @Serializable
 data class Source(
