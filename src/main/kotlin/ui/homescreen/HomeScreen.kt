@@ -3,19 +3,17 @@ package ui.homescreen
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import data.NewsRepository
-import data.model.Article
 import ui.homescreen.composable.Contents
 import ui.homescreen.composable.Headlines
 
 @Composable
 @Preview
 fun HomeScreen(newsRepository: NewsRepository) {
-
-    var selectedArticle by remember { mutableStateOf<Article?>(null) }
 
     LaunchedEffect(newsRepository) {
         newsRepository.fetchNews()
@@ -39,7 +37,7 @@ fun HomeScreen(newsRepository: NewsRepository) {
                     newsRepository.fetchAgain()
                 },
                 onClick = {
-                    selectedArticle = it
+                    newsRepository.selectArticle(it)
                 }
             )
 
@@ -52,7 +50,7 @@ fun HomeScreen(newsRepository: NewsRepository) {
                 .fillMaxHeight()
         ) {
 
-            val article = selectedArticle
+            val article = newsRepository.selectedArticle.value
             if (article != null) {
 
                 Contents(

@@ -1,8 +1,7 @@
 package data
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import data.model.Article
 import data.network.NewsApi
 import data.state.ApiStatus
 import data.state.HomeUiState
@@ -16,6 +15,11 @@ class NewsRepository {
 
     var homeUiState by mutableStateOf(HomeUiState())
         private set
+
+    val selectedArticle: State<Article?>
+        get() = _selectedArticle
+
+    private var _selectedArticle: MutableState<Article?> = mutableStateOf(null)
 
     private var job: Job? = null
 
@@ -85,6 +89,10 @@ class NewsRepository {
 
         fetchNews()
 
+    }
+
+    fun selectArticle(article: Article) {
+        _selectedArticle.value = article
     }
 
 }
