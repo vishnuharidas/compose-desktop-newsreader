@@ -5,6 +5,7 @@ import data.model.Article
 import data.network.NewsApi
 import data.state.ApiStatus
 import data.state.HomeUiState
+import data.state.hasMore
 import data.state.newOrAdd
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -91,8 +92,47 @@ class NewsRepository {
 
     }
 
-    fun selectArticle(article: Article) {
+    fun selectArticle(article: Article?) {
         _selectedArticle.value = article
     }
+
+
+    fun next() {
+
+        val newsCollection = homeUiState.topNews
+
+        val selectedPosition = newsCollection?.list?.indexOfFirst { _selectedArticle.value?.url == it.url } ?: -1
+
+        selectArticle(
+            newsCollection?.list?.get(
+                (selectedPosition + 1).coerceAtMost(newsCollection.list.size - 1)
+            )
+        )
+
+        // Load more if required.
+        if (selectedPosition == newsCollection?.list?.size?.minus(3) // load more if it is the second last item,
+            && newsCollection.hasMore
+        ) { // and has more
+
+            fetchMoreNews()
+
+        }
+
+    }
+
+    fun prev() {
+
+        val newsCollection = homeUiState.topNews
+
+        val selectedPosition = newsCollection?.list?.indexOfFirst { _selectedArticle.value?.url == it.url } ?: -1
+
+        selectArticle(
+            newsCollection?.list?.get(
+                (selectedPosition - 1).coerceAtLeast(0)
+            )
+        )
+
+    }
+
 
 }
