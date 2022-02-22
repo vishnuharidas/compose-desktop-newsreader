@@ -7,7 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import data.NewsRepository
+import resources.AppFonts
 import ui.homescreen.composable.Contents
 import ui.homescreen.composable.Headlines
 
@@ -63,7 +68,19 @@ fun HomeScreen(newsRepository: NewsRepository) {
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Select a news from the list to read")
+                    Text(
+                        """
+                        Select a news from the list to read.
+                        
+                        Use ⬆️/ ⬇️ keys to navigate.
+                    """.trimIndent(),
+                        textAlign = TextAlign.Center,
+                        style = TextStyle(
+                            color = Color.Gray,
+                            fontSize = 18.sp,
+                            fontFamily = AppFonts.RobotoSlabRegular
+                        )
+                    )
                 }
 
             }
