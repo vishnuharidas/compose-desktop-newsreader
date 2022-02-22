@@ -26,6 +26,7 @@ import data.state.ApiStatus
 import data.state.HomeUiState
 import data.state.hasMore
 import kotlinx.coroutines.runBlocking
+import resources.AppFonts
 
 @Composable
 fun Headlines(
@@ -103,13 +104,17 @@ internal fun HeadlinesFailure(
             style = TextStyle(
                 color = Color(0xFFEE5555),
                 fontSize = 16.sp,
+                fontFamily = AppFonts.RobotoSlabRegular
             )
         )
 
         Button(
             onClick = onRetry,
         ) {
-            Text("Retry")
+            Text(
+                "Retry",
+                style = TextStyle(fontFamily = AppFonts.RobotoSlabRegular)
+            )
         }
     }
 }
@@ -132,13 +137,17 @@ internal fun HeadlinesEmpty(
             style = TextStyle(
                 color = Color(0xFFEE5555),
                 fontSize = 16.sp,
+                fontFamily = AppFonts.RobotoSlabRegular
             )
         )
 
         Button(
             onClick = onRetry,
         ) {
-            Text("Retry")
+            Text(
+                "Retry",
+                style = TextStyle(fontFamily = AppFonts.RobotoSlabRegular)
+            )
         }
     }
 }
@@ -193,13 +202,19 @@ internal fun HeadlinesListing(
                     style = TextStyle(
                         color = Color(0xFFEE5555),
                         fontSize = 12.sp,
+                        fontFamily = AppFonts.RobotoSlabRegular
                     )
                 )
 
                 Button(
                     onClick = onLoadMore,
                 ) {
-                    Text("Try again")
+                    Text(
+                        "Try again",
+                        style = TextStyle(
+                            fontFamily = AppFonts.RobotoSlabRegular
+                        )
+                    )
                 }
             }
 
