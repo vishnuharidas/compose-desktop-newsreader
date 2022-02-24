@@ -25,11 +25,11 @@ fun main() = application {
         onKeyEvent = {
 
             when {
-                it.key == Key.DirectionDown && it.type == KeyEventType.KeyUp -> {
+                (it.key == Key.DirectionDown || it.key == Key.J) && it.type == KeyEventType.KeyUp -> {
                     newsRepository.next()
                     true
                 }
-                it.key == Key.DirectionUp && it.type == KeyEventType.KeyUp -> {
+                (it.key == Key.DirectionUp || it.key == Key.K) && it.type == KeyEventType.KeyUp -> {
                     newsRepository.prev()
                     true
                 }
