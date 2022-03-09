@@ -1,15 +1,20 @@
 package ui.homescreen
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.NewsRepository
 import resources.AppFonts
@@ -34,6 +39,66 @@ fun HomeScreen(newsRepository: NewsRepository) {
                 .weight(1f)
                 .fillMaxHeight()
         ) {
+
+            var selectedIndex by remember { mutableStateOf(0) }
+
+            var listExpanded by remember { mutableStateOf(false) }
+
+            val typesList = listOf("All News", "Technology", "International", "Sports")
+
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(
+                        width = 2.dp,
+                        color = Color.Gray
+                    )
+
+            ) {
+
+                // Show selected item
+                Text(
+                    typesList[selectedIndex],
+                    style = TextStyle(
+                        color = Color.Gray,
+                        fontSize = 18.sp,
+                        fontFamily = AppFonts.RobotoSlabRegular
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            listExpanded = !listExpanded
+                        }
+                        .padding(all = 8.dp)
+                )
+
+                // Menu
+                DropdownMenu(
+                    expanded = listExpanded,
+                    offset = DpOffset(0.dp, 0.dp),
+                    onDismissRequest = {
+                        listExpanded = false
+                    },
+                    modifier = Modifier
+                        .width(300.dp)
+                ) {
+
+                    typesList.forEachIndexed { index, s ->
+
+                        DropdownMenuItem(
+                            onClick = {
+                                selectedIndex = index
+                                listExpanded = false
+                            }
+                        ) {
+                            Text(s)
+                        }
+
+                    }
+
+                }
+            }
 
             Headlines(
                 newsRepository.homeUiState,
