@@ -6,7 +6,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -71,6 +74,15 @@ fun HomeScreen(newsRepository: NewsRepository) {
                             listExpanded = !listExpanded
                         }
                         .padding(all = 8.dp)
+                )
+
+                // Dropdown icon
+                Icon(
+                    Icons.Default.ArrowDropDown,
+                    "▼",
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 8.dp)
                 )
 
                 // Menu
