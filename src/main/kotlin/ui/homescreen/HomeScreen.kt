@@ -104,7 +104,14 @@ fun HomeScreen(newsRepository: NewsRepository) {
                                 listExpanded = false
                             }
                         ) {
-                            Text(s)
+                            Text(
+                                s,
+                                style = TextStyle(
+                                    color = Color.Black,
+                                    fontSize = 18.sp,
+                                    fontFamily = AppFonts.RobotoSlabRegular
+                                )
+                            )
                         }
 
                     }
